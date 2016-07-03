@@ -1,0 +1,909 @@
+% \iffalse The license starting three lines down applies to this file
+%<*batchfile>
+\begingroup\input docstrip \preamble
+Copyright (C) 2009-2011 by Stephen Checkoway <s@cs.ucsd.edu>
+
+This file may be distributed and/or modified under the
+conditions of the LaTeX Project Public License, either
+version 1.3c of this license or (at your option) any later
+version.  The latest version of this license is in:
+
+    http://www.latex-project.org/lppl.txt
+
+and version 1.3c or later is part of all distributions of
+LaTeX version 2005/12/01 or later.
+
+This work has the LPPL maintenance status 'maintained'.
+
+The Current Maintainer of this work is Stephen Checkoway.
+
+This work consists of usenix09.dtx and the derived file
+usenix09.cls.
+\endpreamble
+\keepsilent
+\usedir{tex/latex/\jobname}
+\askforoverwritefalse
+\generate{\file{\jobname.cls}{\from{\jobname.dtx}{}}}
+\endgroup
+
+\documentclass{ltxdoc}
+\usepackage{mathptmx,courier}
+\usepackage[scaled=.92]{helvet}
+\usepackage[T1]{fontenc}
+\usepackage[breaklinks=true,pdfborder={0 0 0}]{hyperref}
+
+\CheckSum{628}
+\CharacterTable
+ {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
+  Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
+  Digits        \0\1\2\3\4\5\6\7\8\9
+  Exclamation   \!     Double quote  \"     Hash (number) \#
+  Dollar        \$     Percent       \%     Ampersand     \&
+  Acute accent  \'     Left paren    \(     Right paren   \)
+  Asterisk      \*     Plus          \+     Comma         \,
+  Minus         \-     Point         \.     Solidus       \/
+  Colon         \:     Semicolon     \;     Less than     \<
+  Equals        \=     Greater than  \>     Question mark \?
+  Commercial at \@     Left bracket  \[     Backslash     \\
+  Right bracket \]     Circumflex    \^     Underscore    \_
+  Grave accent  \`     Left brace    \{     Vertical bar  \|
+  Right brace   \}     Tilde         \~}
+
+
+\EnableCrossrefs
+\CodelineIndex
+\CodelineNumbered
+\RecordChanges
+\usepackage{trace}
+\begingroup
+    \def\ProvidesClass#1 [#2]{\endinput\gdef\temp{\ProvidesFile{#1.dtx}[#2]}}
+    \input\jobname.cls
+\endgroup
+\temp
+\GetFileInfo{\jobname.dtx}
+\title{The \textsf{USENIX09} class}
+\author{Stephen Checkoway\\ \texttt{s@cs.ucsd.edu}}
+\date{Version \fileversion, \filedate, Generated \today}
+
+\begin{document}
+\maketitle
+
+\phantomsection
+\addcontentsline{toc}{section}{\abstractname}
+\begin{abstract}
+This class is designed to meet the basic requirements for USENIX 2009
+paper submission.%
+\footnote{\url{http://www.usenix.com/events/usenix09/instrux/details.html}}
+It should be used in place of the \textsf{article} class.
+\end{abstract}
+
+\phantomsection
+\addcontentsline{toc}{section}{\contentsname}
+\tableofcontents
+
+\section{Introduction}
+This package is meant to simplify complying with the USENIX 2009 paper
+submission format by including the appropriate packages and setting
+document parameters to values appropriate for USENIX 2008 proceedings.
+USENIX provides an example style file that was designed for USENIX
+2005. It contains some of the basic functionality of this class, but
+much is left up to the user. In addition, the sample file provided
+does not even make use of all of the functionality provided.
+
+\section{Usage}
+The |usenix09| document class should be used in place of
+\textsf{article}. It accepts all of the options that \textsf{article}
+does as well as a number of options to control its behavior. For
+initial submission, one might use,
+\begin{center}
+|\documentclass[twocolumn,pagenumbers]{usenix09}|
+\end{center}
+whereas for camera-ready, the following is more appropriate.
+\begin{center}
+|\documentclass[twocolumn,footasend]{usenix09}|
+\end{center}
+
+In particular, since USENIX requires two columns, the |twocolumn|
+option should be used. However, since it may be desirable to have a
+single column, or if two columns are to be achieved some other way,
+for example using \textsf{multicol}, an option |onecolumn| may be
+passed.  It is an error to not specify either |onecolumn| or
+|twocolumn|.
+
+Some options like |titlepage| may not work. The |10pt| and
+|letterpaper| options are passed by default. The various options and
+their rationales are described next.
+
+\subsection{Options}
+All of the options except for |twocolumn| and |onecolumn| are
+independent and can be used in any combination.
+\begin{description}
+\item{|onecolumn|} Overrides the two column requirement and forces a
+single column of text. This can be used for initial submission or when
+the two columns are being set by a package rather than using the
+|article| document class's option.
+\item{|twocolumn|} In general, this option should be passed to
+|usenix09| as USENIX requires two columns. Passing this option will
+also ensure that the columns are separated by the appropriate amount
+as specified by USENIX.
+\item{|tight|} If your document is too long for the page constraints,
+this option will remove much of the blank space left by |\maketitle|
+as well as supplying the |compact| option to \textsf{titlesec}.  The
+macros in \textsf{titlesec} can be manipulated to change the spacing
+whether or not the |tight| option is passed.
+\item{|titlecompat|} This option emulates the spacing of the
+\textsf{usenix} package. It overrides |tight|, but only for
+|\maketitle|.
+\item{|footasend|} USENIX requires that endnotes be used in place of
+footnotes. This option simplifies the conversion process by changing
+|\footnote| to |\endnote| and using |\theendnotes| at the very end of
+the document. Without the option, |\endnote| should be used and
+|\theendnotes| should be placed at the end manually.
+\item{|pagenumbers|} USENIX requires that initial submissions contain
+page numbers but that the camera-ready submission contain no page
+numbers.
+\item{|nofonts|} By default, \textsf{usenix09} loads the
+\textsf{mathptmx}, \textsf{helvet}, and \textsf{courier} packages to
+set the roman and math fonts to times, the sans serif font to a scaled
+down Helvetica, and the typewriter font to Courier. Pass the |nofonts|
+option if you wish to set the fonts yourself. Passing this option also
+sets |nofontenc|.
+\item{|nofontenc|} Pass this option if you do not want T1 fonts used.
+I can't think of a reason to use this, but since this isn't required
+by USENIX, I thought I'd give an option for it.
+\item{|noflushend|} The USENIX specifications do not say if the
+columns on the final page should be the same length or not. I think it
+looks better when they are the same length and thus the
+\textsf{flushend} package is used by default. If you prefer to handle
+this yourself, pass this option.
+\end{description}
+
+\subsection{Authors}
+USENIX is particular about the format of the authors. That is, each
+author's name should be set in 12~pt roman font while the institution
+should be set in 12~pt italics font. The standard |\author| macro does
+not accommodate this without resorting to various hacks. For example,
+if you want multiple rows of authors, then rather than separate each
+author by |\and|, you have to use the fact that |\author| is typeset
+in a |tabular| and use two authors in a column separated by |\and|
+followed by another two authors, and so forth. This doesn't scale
+particularly well and it requires a lot of manual futzing.
+
+\DescribeMacro\addauthor
+To avoid the problems with |\author|, a new command
+\begin{center}
+|\addauthor|\oarg{footnote}\marg{name}\marg{institution}
+\end{center}
+is provided. It should be used once for each author. The
+\meta{footnote} optional argument can be used to specify a footnote
+for the author's name---as specified by \meta{name}. The
+\meta{institution} argument will be below the author and in italics.
+
+Using |\footnote| or |\thanks| in the \meta{name} or
+\meta{institution} arguments directly is supported, but the order of
+the footnotes will not be what you might expect.  Namely, they will
+appear after footnotes in the title as well as after the
+\meta{footnote} footnotes. Worse, the order will not be left-to-right,
+top-to-bottom (unless there is only a single row of authors).
+Basically, just don't do that. Use \meta{footnote} instead.
+
+\DescribeMacro\author 
+\DescribeMacro\and
+In addition to |\addauthor|, |\author| is provided as an alias for
+|\addauthor|. The |\and| macro is no longer relevant and its use is an
+error.
+
+\DescribeMacro\authorsep
+\DescribeMacro\authorskip
+Two parameters control the horizontal and vertical spacing of the
+authors. The horizontal spacing is controlled by |\authorsep| and the
+default value is that used by the \textsf{article} class's |\and|
+macro. The vertical spacing is controlled by |\authorskip|.  The
+default value is probably a reasonable one. Neither of these need to
+be changed, but both can be.
+
+\DescribeMacro\authorcolumns
+The number of columns of authors (and hence the number of rows) is
+controled by the |\authorcolumns| parameter. If it is positive, then
+the author list will be typeset using that many columns. If the number
+of columns specified cannot fit on the page, then the columns will
+\emph{not} wrap. Instead, the authors will extend into the margins.
+
+If |\authorcolumns| is nonpostive, then the default number of columns
+will be chosen. If there are one to four authors (inclusive), then
+they will be in a single row. Five and six authors use two rows of at
+most three columns. Seven and eight authors use two rows of at most
+four columns. Nine authors use three rows of three columns. Ten or
+more authors are typeset in rows of at most four columns. In all
+cases, only the last row may have fewer than the maximum number of
+columns.
+
+If the authors names and institutions are very long, they may not fit
+into the number of columns chosen by default. In this case,
+|\authorcolumns| should be manually set or |\authorsep| can be
+decreased.
+
+\DescribeMacro\authornewline
+\DescribeMacro\institutionnewline
+Additional lines can be added under the author or institution by using
+|\authornewline| or |\institutionnewline|, but since the author list
+is typeset in columns rather than rows, each author in a row should
+have the same number of lines, even if they are blank.
+
+In some cases with many authors and few institutions, it takes up less
+space to list all authors from the first institution together with the
+institution and then below it all authors from the second institution
+and so on. In this case, |\authorcolumns| should be set to~1 and all
+authors for a single institution should be given in the \marg{name}
+parameter to |\addauthor|. Extra lines of authors for a given
+institution can be given with |\authornewline|.
+
+\StopEventually{
+    \typeout{**************************************************}
+    \typeout{*}
+    \typeout{* To finish the installation, you have to move the}
+    \typeout{* following file into a directory searched by TeX:}
+    \typeout{*}
+    \typeout{* \space\space \jobname.sty}
+    \typeout{*}
+    \typeout{* Documentation is in \jobname.\ifpdf pdf\else dvi\fi.}
+    \typeout{*}
+    \typeout{* Happy TeXing!}
+    \typeout{**************************************************}
+    \end{document}
+}
+\clearpage
+\DocInput{\jobname.dtx}
+\clearpage
+\phantomsection
+\addcontentsline{toc}{section}{Change History}%
+\PrintChanges
+\phantomsection
+\addcontentsline{toc}{section}{Index}%
+\PrintIndex
+\Finale
+%</batchfile>
+% \fi
+% \DoNotIndex{\newcommand,\newenvironment,\renewcommand,
+%   \@date,\@empty,\@plus,\@textsuperscript,\@undefined,
+%   \\,\ ,\AtBeginDocument,\AtEndDocument,\begin,
+%   \begingroup,\count@,\csname,\date,\def,\divide,\edef,
+%   \else,\end,\endcsname,\endgroup,\expandafter,\fi,
+%   \global,\hb@xt@,\hss,\ifcase,\ifnum,\ifx,\let,
+%   \lineskip,\long,\loop,\multiply,\newcount,\newif,
+%   \newpage,\newskip,\noindent,\normalfont,\normalsize,
+%   \null,\or,\par,\protect,\protected@edef,\protected@xdef,
+%   \providecommand,\relax,\repeat,\rlap,\the,\vskip,\z@}
+% \DoNotIndex{\advance,\bfseries,\c@footnote,\ClassError,
+%   \columnsep,\count,\CurrentOption,\DeclareOption,\endnote,
+%   \ExecuteOptions,\fontsize,\footnote,\footnotemark,
+%   \footnotetext,\geometry,\hfil,\hskip,\if@twocolumn,\ifodd,
+%   \itshape,\Large,\large,\LoadClass,\MessageBreak,\@ne,\pagestyle,
+%   \parindent,\PassOptionsToClass,\PassOptionsToPackage,
+%   \ProcessOptions,\r,\RequirePackage,\selectfont,
+%   \setcounter,\setlength,\stepcounter,\string,\textwidth,
+%   \theendnotes,\thefootnote,\thetitle,\thispagestyle,\thr@@,
+%   \titleformat,\toks@,\tw@,\twocolumn,\upshape}
+%
+% \changes{v1.0}{2009/06/03}{Initial version}
+% \changes{v1.1}{2009/06/04}{Exclude macros from index}
+% \changes{v1.2}{2009/06/04}{User-specified number of columns}
+% \changes{v1.3}{2011/01/29}{Reorganize dtx}
+% \changes{v1.3}{2011/01/29}{Conserve tokens}
+%
+% \section{Implementation}
+% \subsection{Initial code}
+% First we add the package identification and then we declare some
+% conditionals which we will set with options.
+%    \begin{macrocode}
+\NeedsTeXFormat{LaTeX2e}[1999/12/01]
+\ProvidesClass{usenix09}
+    [2011/01/29 v1.3 USENIX09 formatting]
+%    \end{macrocode}
+% \begin{macro}{\ifusenix@onecolumn}
+% One column flag.
+%    \begin{macrocode}
+\newif\ifusenix@onecolumn \usenix@onecolumnfalse
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\ifusenix@nofonts}
+% Don't load any fonts.
+%    \begin{macrocode}
+\newif\ifusenix@nofonts \usenix@nofontsfalse
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\ifusenix@nofontenc}
+% No \textsf{fontenc} flag.
+%    \begin{macrocode}
+\newif\ifusenix@nofontenc \usenix@nofontencfalse
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\ifusenix@tight}
+% Tight flag.
+%    \begin{macrocode}
+\newif\ifusenix@tight \usenix@tightfalse
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\ifusenix@titlecompat}
+% |\maketitle| compatibility with \textsf{usenix} package.
+%    \begin{macrocode}
+\newif\ifusenix@titlecompat \usenix@titlecompatfalse
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\ifusenix@pagenumbers}
+% Page numbers flag.
+%    \begin{macrocode}
+\newif\ifusenix@pagenumbers \usenix@pagenumbersfalse
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\ifusenix@noflushend}
+% No \textsf{flushend} flag.
+%    \begin{macrocode}
+\newif\ifusenix@noflushend \usenix@noflushendfalse
+%    \end{macrocode}
+% \end{macro}
+% \subsection{Options}
+% We want to support several options which change the way the document
+% is laid out.
+%
+% The |twocolumn| option is a global option. USENIX 2009 requires
+% documents to be typeset in two columns. Pass onecolumn to allow
+% single column text.
+%    \begin{macrocode}
+\DeclareOption{onecolumn}{\usenix@onecolumntrue}
+%    \end{macrocode}
+%
+% Set the section spacing to be very tight for long papers.
+% \changes{v1.2.2}{2009/06/05}{Use compact}
+%    \begin{macrocode}
+\DeclareOption{tight}{\usenix@tighttrue\PassOptionsToPackage{compact}{titlesec}}
+%    \end{macrocode}
+%
+% Turn on |\maketitle| compatibility with \textsf{usenix} package.
+% \changes{v1.2.7}{2010/03/26}{Add titlecompat}
+%    \begin{macrocode}
+\DeclareOption{titlecompat}{\usenix@titlecompattrue}
+%    \end{macrocode}
+%
+% Make |\footnote| synonymous with |\endnote|.
+%    \begin{macrocode}
+\DeclareOption{footasend}{
+    \AtBeginDocument{\let\footnote\endnote}
+    \AtEndDocument{\theendnotes}}
+%    \end{macrocode}
+%
+% Do not set the fonts at all.
+%    \begin{macrocode}
+\DeclareOption{nofonts}{\usenix@nofontstrue\ExecuteOptions{nofontenc}}
+%    \end{macrocode}
+%
+% Do not load the \textsf{fontenc} package.
+%    \begin{macrocode}
+\DeclareOption{nofontenc}{\usenix@nofontenctrue}
+%    \end{macrocode}
+%
+% Add page numbers.
+%    \begin{macrocode}
+\DeclareOption{pagenumbers}{\usenix@pagenumberstrue}
+%    \end{macrocode}
+%
+% Do not flush end.
+%    \begin{macrocode}
+\DeclareOption{noflushend}{\usenix@noflushendtrue}
+%    \end{macrocode}
+%
+% Pass all unknown options to the article class.
+%    \begin{macrocode}
+\DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
+%    \end{macrocode}
+%
+% Process those options! (Use |\relax| to prevent the search for an
+% asterisk.) Load the |article| class.
+%    \begin{macrocode}
+\ProcessOptions\relax
+\LoadClass[10pt,letterpaper]{article}
+%    \end{macrocode}
+%
+% \subsection{Loading the packages}
+% We need to load a number of packages to ensure that we conform. But
+% before we do that, load the |fixltx2e| package to fix the float
+% placement, among other things.
+%
+%    \begin{macrocode}
+\RequirePackage{fixltx2e}
+%    \end{macrocode}
+%
+% Flush end?
+%    \begin{macrocode}
+\ifusenix@noflushend\else
+    \RequirePackage{flushend}
+\fi
+%    \end{macrocode}
+%
+% We need to set the roman and math fonts to Times, the sans serif
+% font to Helvetica, and the typewriter font to Courier.
+% \changes{v1.2.4}{2009/06/17}{Use mathptmx}
+% \changes{v1.2.5}{2009/06/17}{Use helvet and courier}
+%    \begin{macrocode}
+\ifusenix@nofonts\else
+    \RequirePackage{mathptmx}
+    \RequirePackage[scaled=.92]{helvet}
+    \RequirePackage{courier}
+\fi
+%    \end{macrocode}
+%
+% If |nofontenc| was given, do not load the package. Otherwise, use T1
+% fonts.
+%    \begin{macrocode}
+\ifusenix@nofontenc\else
+    \RequirePackage[T1]{fontenc}
+\fi
+%    \end{macrocode}
+%
+% We also want the \textsf{geometry}, \textsf{titlesec},
+% \textsf{caption}, and \textsf{endnotes} packages to set the page
+% layout, section heading, captions, and endnotes appropriately.
+% \changes{v1.1}{2009/06/04}{Use the geometry package.}
+% \changes{v1.2.6}{2009/06/22}{Don't change indentation for notes.}
+%    \begin{macrocode}
+\RequirePackage[letterpaper,margin=1in,nohead,columnsep=.25in]{geometry}
+\RequirePackage{titlesec}
+\RequirePackage[margin=10pt,font=small,labelfont=bf]{caption}
+\RequirePackage{endnotes}
+\let\enotesize\normalsize
+\def\enoteformat{%
+    \rightskip\z@
+    \leftskip\z@
+    \leavevmode\llap{\makeenmark}%
+}
+%    \end{macrocode}
+%
+% \subsection{Satisfying the format}
+% If we don't have page numbers, then we don't need space for them.
+%    \begin{macrocode}
+\ifusenix@pagenumbers\else
+\geometry{nofoot}
+\fi
+%    \end{macrocode}
+%
+% \begin{macro}{\usenix@twocolumn}
+% Make sure we're either in |twocolumn| or |onecolumn|. Camera ready
+% requires a column separation of 0.25~in.
+%    \begin{macrocode}
+\begingroup
+\def\usenix@twocolumn{
+    \ifusenix@onecolumn
+        \ClassError{usenix09}{Cannot specify both twocolumn
+        and onecolumn.}{At most one of twocolumn and onecolumn
+        may be specified.}
+    \fi}
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\usenix@onecolumn}
+%    \begin{macrocode}
+\def\usenix@onecolumn{
+    \ifusenix@onecolumn\else
+        \ClassError{usenix09}{USENIX 2009 requires 2
+        columns.\MessageBreak
+        Pass option onecolumn to override.}{Single column
+        requires the use of option onecolumn.}
+    \fi}
+%    \end{macrocode}
+% \end{macro}
+%    \begin{macrocode}
+\if@twocolumn
+    \usenix@twocolumn
+    \setlength\columnsep{0.25in}
+\else
+    \usenix@onecolumn
+\fi
+\endgroup
+%    \end{macrocode}
+%
+% Do we want page numbers?
+%    \begin{macrocode}
+\ifusenix@pagenumbers
+    \pagestyle{plain}
+\else
+    \pagestyle{empty}
+\fi
+%    \end{macrocode}
+%
+% \begin{macro}{\maketitle}
+% We need to change the title layout. This is mostly copied from
+% |classes.dtx|.
+%    \begin{macrocode}
+\renewcommand\maketitle{\par
+    \begingroup
+    \renewcommand\thefootnote{\@fnsymbol\c@footnote}%
+    \def\@makefnmark{\rlap{\@textsuperscript{\normalfont\@thefnmark}}}%
+    \long\def\@makefntext##1{\parindent1em\noindent
+        \hb@xt@1.8em{%
+            \hss\@textsuperscript{\normalfont\@thefnmark}}##1}%
+    \if@twocolumn
+        \twocolumn[\@maketitle]%
+    \else
+        \newpage
+        \global\@topnum\z@
+        \@maketitle
+    \fi
+%    \end{macrocode}
+% Make sure we don't use page numbers unless they were requested.
+%    \begin{macrocode}
+    \ifusenix@pagenumbers
+        \thispagestyle{plain}%
+    \else
+        \thispagestyle{empty}%
+    \fi
+    \@thanks
+    \endgroup
+    \setcounter{footnote}{0}%
+%    \end{macrocode}
+% Now clear out a number of macros related to the title generation.
+%    \begin{macrocode}
+    \begingroup
+    \def\r##1{\global\let##1\@undefined}%
+    \global\let\@thanks\@empty
+    \global\let\@author\@empty
+    \global\let\@date\@empty
+    \global\let\@title\@empty
+    \r\thanks
+    \r\maketitle
+    \r\@maketitle
+    \r\title
+    \r\author
+    \r\date
+    \r\and
+    \r\addauthor
+    \r\usenix@authorname
+    \r\usenix@institutionname
+    \r\usenix@extract
+    \r\usenix@temp
+    \r\usenix@layoutauthorcolumn
+    \r\usenix@l@youtauthorcolumn
+    \r\usenix@layoutauthors
+    \r\authornewline
+    \r\institutionnewline
+    \global\usenix@currauthor\z@
+    \loop\ifnum\count@<\usenix@numauthors
+        \expandafter
+        \r\csname usenix@author\the\usenix@currauthor\endcsname
+        \global\advance\usenix@currauthor\@ne
+    \repeat
+    \endgroup
+}
+%    \end{macrocode}
+% \end{macro}
+% 
+% \begin{macro}{\@maketitle}
+%  No date is displayed, the title is in 14~pt \textbf{bold}. The
+%  author names and affiliations are handled by
+%  |\usenix@layoutauthors|, below.
+%    \begin{macrocode}
+\renewcommand\@maketitle{%
+    \newpage
+    \ifusenix@titlecompat
+        \vbox to2.5in{
+            \vskip2em plus1fill
+            \begin{center}%
+                \let\footnote\thanks
+                {\Large\bfseries\@title\par}%
+                \vskip.375in minus.3in
+                {\large\lineskip.5em \usenix@layoutauthors}%
+            \end{center}%
+            \par
+            \vfill
+        }%
+    \else % usenix@titlecompat
+        \null
+        \ifusenix@tight\else
+            \vskip2em
+        \fi
+        \begin{center}%
+            \let\footnote\thanks
+            {\Large\bfseries\@title\par}%
+            \ifusenix@tight
+                \vskip.75em
+            \else
+                \vskip1.5em
+            \fi
+            {\large\lineskip.5em \usenix@layoutauthors}%
+            \ifusenix@tight
+                \vskip.5em
+            \else
+                \vskip1em
+            \fi
+        \end{center}%
+        \par
+        \ifusenix@tight
+            \vskip.75em
+        \else
+            \vskip1.5em
+        \fi
+    \fi % usenix@titlecompat
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \subsection{Handling multiple authors}
+% The author layout is is a bit tricky. We want to emulate the
+% behavior of |\and| between authors, but we also need to fulfill the
+% requirements of USENIX, namely the author name needs to be in roman
+% font and the institution must be in italics.
+%
+% \begin{macro}{\and}
+% To handle an arbitrary number of authors, we remove the |\and|
+% macro and replace it with |\addauthor| which is to be called
+% multiple times, one for each author.
+%    \begin{macrocode}
+\renewcommand\and{\ClassError{usenix09}{\string\and\ is not supported.
+Use \string\addauthor.}{\string\and\ does not work with usenix09.}}
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\addauthor}
+% Save the author for later.
+%    \begin{macrocode}
+\newcommand\addauthor[3][]{%
+    \expandafter\def\csname usenix@author\the\usenix@numauthors\endcsname{%
+        {#1}{#2}{#3}}
+    \global\advance\usenix@numauthors\@ne
+}
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\author}
+% Make |\author| an alias for |\addauthor|.
+%    \begin{macrocode}
+\global\let\author\addauthor
+%    \end{macrocode}
+% \end{macro}
+%
+% Set the three user-accessible spacing registers to reasonable values.
+%
+% \begin{macro}{\authorsep}
+% This controls horizontal separation.
+%    \begin{macrocode}
+\newskip\authorsep \authorsep1em\@plus.17fil
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\authorskip}
+% This controls vertical skip.
+%    \begin{macrocode}
+\newskip\authorskip \authorskip.5em
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\authorcolumns}
+% Let the user specify the number of columns desired.
+%    \begin{macrocode}
+\newcount\authorcolumns \authorcolumns\z@
+%    \end{macrocode}
+% \end{macro}
+%
+% Now set up some internally needed counters and macros.
+%    \begin{macrocode}
+\newcount\usenix@numauthors
+\newcount\usenix@currauthor
+\global\usenix@numauthors\z@
+\providecommand\@firstofthree[3]{#1}
+\providecommand\@secondofthree[3]{#2}
+\providecommand\@thirdofthree[3]{#3}
+%    \end{macrocode}
+%
+% We need to be able to extract the three components of the current
+% author. The argument should be one of |\@firstofthree|,
+% |\@secondofthree|, or |\@thirdofthree|. The three |\expandafter|s
+% cause the constructed control sequence to be expanded before the
+% argument extracts the individual component. Note that there is zero
+% error checking here.
+%    \begin{macrocode}
+\newcommand\usenix@extract[1]{\expandafter\expandafter\expandafter
+    #1\csname usenix@author\the\usenix@currauthor\endcsname}
+%    \end{macrocode}
+%
+% To simplify matters, provide a single macro that expands to the
+% author's name with a footnote if desired in roman as well as one for
+% the institution.
+%    \begin{macrocode}
+\newcommand\usenix@authorname{%
+    \protected@edef\usenix@temp{\usenix@extract\@firstofthree}%
+    \begingroup
+    \upshape
+    \usenix@extract\@secondofthree
+    \endgroup
+    \ifx\usenix@temp\@empty\else
+        \footnotemark[\usenix@temp]%
+    \fi
+}
+\newcommand\usenix@institutionname{\usenix@extract\@thirdofthree}
+%    \end{macrocode}
+%
+% \begin{macro}{\usenix@layoutauthors}
+% This is the hard part. We want a somewhat unified style for the
+% authors. The defaults should be sensible, but can be overwritten by
+% changing |\authorcolumns|.
+%    \begin{macrocode}
+\newcommand\usenix@layoutauthors{%
+%    \end{macrocode}
+% We need to process the footnotes at this point to ensure that they
+% follow any in the title.
+%    \begin{macrocode}
+    \global\usenix@currauthor\z@
+    \loop\ifnum\usenix@currauthor<\usenix@numauthors
+        \protected@edef\usenix@temp{\usenix@extract\@firstofthree}%
+        \ifx\usenix@temp\@empty\else
+            \stepcounter{footnote}%
+            \protected@xdef\@thefnmark{\thefootnote}%
+            \protected@xdef\@thanks{\@thanks
+                \protect\footnotetext[\the\c@footnote]{\usenix@temp}}%
+            \def\usenix@temp{\the\c@footnote}%
+        \fi
+%    \end{macrocode}
+% We want to replace the first component of the author with the
+% footnote number. We do this by expanding the |\csname| and then the
+% resultant control sequence, and then the |\@gobble| to remove the
+% first component and stuff the remainder into the token register.
+% Then the author is redefined to be the new triple.
+%    \begin{macrocode}
+        \toks@\expandafter\expandafter\expandafter\expandafter\expandafter
+            \expandafter\expandafter{\expandafter\expandafter\expandafter
+            \@gobble\csname usenix@author\the\usenix@currauthor\endcsname}
+        \expandafter\edef
+            \csname usenix@author\the\usenix@currauthor\endcsname{%
+                {\usenix@temp}\the\toks@}
+        \global\advance\usenix@currauthor\@ne
+    \repeat
+%    \end{macrocode}
+% Get on with laying out the authors in columns.
+% \changes{v1.1}{2009/06/04}{Make PackageError into a ClassError}
+%    \begin{macrocode}
+    \ifnum\usenix@numauthors=\z@
+        \ClassError{usenix09}{At least one author is required.}{Use
+        \string\addauthor\ to add an author.}
+    \fi
+    \ifnum\authorcolumns>\z@
+        \ifnum\authorcolumns>\usenix@numauthors
+            \authorcolumns\usenix@numauthors
+        \fi
+    \else
+        \authorcolumns
+        \ifcase\usenix@numauthors
+        \or \@ne %1
+        \or \tw@ %2
+        \or \thr@@ %3
+        \or 4 %4
+        \or \thr@@ %5
+        \or \thr@@ %6
+        \or 4 %7
+        \or 4 %8
+        \or \thr@@ %9
+        \else 4 % How many authors do you have??
+        \fi
+    \fi
+%    \end{macrocode}
+% Now that |\authorcolumns| has been set to a reasonable value, we can
+% perform the actual layout. This works by computing $\lfloor
+% \mathit{numauthors}/\mathit{authorcolumns}\rfloor\cdot
+% \mathit{authorcolumns}$ and laying out that many authors in the
+% requested number of columns. If $\mathit{authorcolumns}$ minus the
+% remaining number of authors is even, then layout those authors in
+% the columns that are in the middle. Otherwise, just lay out the
+% authors.
+%    \begin{macrocode}
+    \begingroup
+    \itshape
+    \count@\usenix@numauthors
+    \divide\count@\authorcolumns
+    \multiply\count@\authorcolumns
+    \count\z@\authorcolumns
+    \advance\count\z@-\usenix@numauthors
+    \advance\count\z@\count@
+    \ifodd\count\z@
+        \count\z@\authorcolumns
+    \else
+        \divide\count\z@\tw@
+    \fi
+    \count\tw@\count@
+    \count4\z@
+    \hb@xt@\textwidth{\hfil
+    \loop\ifnum\count4<\authorcolumns
+        \ifnum\count4>\z@
+            \hskip\authorsep\relax
+            \fi
+        \ifnum\count\z@>\z@
+            \usenix@layoutauthorcolumn{\count4}\usenix@numauthors
+            \advance\count\z@\m@ne
+        \else
+            \usenix@layoutauthorcolumn{\count4}{\count\tw@}%
+            \advance\count\tw@\@ne
+        \fi
+        \advance\count4\@ne
+    \repeat
+    \global\usenix@currauthor\count\tw@
+    \hfil}%
+    \ifnum\usenix@currauthor<\usenix@numauthors
+        \par\vskip\authorskip\relax
+        \hb@xt@\textwidth{\hfil
+        \loop\ifnum\usenix@currauthor<\usenix@numauthors
+            \begin{tabular}[t]{c}%
+            \usenix@authorname\\
+            \usenix@institutionname
+            \end{tabular}%
+            \global\advance\usenix@currauthor\@ne
+            \ifnum\usenix@currauthor<\usenix@numauthors
+                \hskip\authorsep\relax
+            \fi
+        \repeat
+        \hfil}
+    \fi
+    \endgroup
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\usenix@layoutauthorcolumn}
+% At last, the code for handling a single column. The first argument
+% is the starting point, the second is an additional author to place
+% in the column for the final row. The column is layed out by starting
+% at the first argument and then striding through the authors by
+% |\authorcolumns| until |\count@| is reached. Then the second author
+% is layed out, assuming it is in range.
+%    \begin{macrocode}
+\newcommand\usenix@layoutauthorcolumn[2]{%
+    \global\usenix@currauthor#1
+    \begin{tabular}[t]{c}%
+    \usenix@l@youtauthorcolumn
+    \global\usenix@currauthor#2
+    \ifnum\usenix@currauthor<\usenix@numauthors
+        \\[\authorskip]%
+        \usenix@authorname\\
+        \usenix@institutionname
+    \fi
+    \end{tabular}%
+}
+\newcommand\usenix@l@youtauthorcolumn{%
+    \usenix@authorname\\
+    \usenix@institutionname
+    \global\advance\usenix@currauthor\authorcolumns
+    \ifnum\usenix@currauthor<\count@
+        \\[\authorskip]%
+        \expandafter\usenix@l@youtauthorcolumn
+    \fi
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% Add the newline helpers.
+% \changes{v1.2.8}{2011/01/29}{Support multiple line author names}
+% \begin{macro}{\authornewline}
+% \begin{macro}{\institutionnewline}
+%    \begin{macrocode}
+\newcommand*\authornewline{%
+    \unskip
+    \endgroup
+    \tabularnewline
+    \begingroup
+    \upshape
+    \ignorespaces
+}
+\newcommand*\institutionnewline{%
+    \unskip
+    \tabularnewline
+    \ignorespaces
+}
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+%
+% \subsection{Setting up the section headers}
+% USENIX requires that the section heading be in 12~pt \textbf{bold}.
+% There is no requirement on the others, so just make them smaller.
+% \changes{v1.2.1}{2009/06/04}{Make subsubsection bold}
+% \changes{v1.2.1}{2009/06/04}{Use 11~pt for subsection}
+% \changes{v1.2.3}{2009/06/16}{Additional institution rows in italics}
+%    \begin{macrocode}
+\titleformat\section{\bfseries\large}{\thetitle}{1em}{}{} 
+\titleformat\subsection{\bfseries\fontsize\@xipt{13}\selectfont}{\thetitle}{1em}{}{} 
+\titleformat\subsubsection{\bfseries}{\thetitle}{1em}{}{}
+\endinput
+%    \end{macrocode}
+% \endinput
+% vim: set ts=4 sts=4 expandtab:

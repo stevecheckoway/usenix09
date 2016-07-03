@@ -1,0 +1,61 @@
+% Use titlecompat for \maketitle spacing from USENIX's usenix.sty
+% \documentclass[twocolumn,footasend,titlecompat]{usenix09}
+\documentclass[twocolumn,footasend]{usenix09}
+\usepackage{url}
+\usepackage{listings}
+\usepackage{lipsum} % Just for example text
+
+\author{Author One}{Institution One}
+\author[\texttt{here.is@n.email} Note that email addresses are suppose
+to appear on the front page. It's unclear \emph{where} exactly they
+are supposed to appear. Footnotes like this?]{Author Two}{Institution Two}
+\author{Name in Roman}{Institution in Italics}
+\author{Author Four}{Institution Four}
+\author{Look At The}{Automatic Author Layout}
+\author{It Sure}{Is Fancy}
+\title{A 14 pt, bold title}
+
+\begin{document}
+\maketitle
+\begin{abstract}
+An example document showing how easy it is to use this class to
+produce USENIX documents.
+\end{abstract}
+
+\section{A 12 pt bold section heading}
+Standard 10~pt text. Note that instead of footnotes, \verb!\footnote!
+produces an endnote when using the \verb!footasend! class
+option.\footnote{Fancy, huh?}
+
+\subsection{An 11 pt bold subsection heading}
+Does this conform to USENIX's style? Who knows, it sure looks better
+than making the sizes the same! The style file for 2005 seems to
+indicate that smaller is okay.%
+\footnote{http://www.usenix.org/events/samples/usenix.sty}
+
+\subsubsection{A 10 pt bold subsubsection heading}
+See Figure~\ref{fig:example}.
+
+\section{Wasting space}
+\lipsum
+
+\begin{figure}
+\centering
+This is where I would normally put a glorious figure, but I have none
+to share.
+\caption{Note that the caption is typeset in 9~pt as mandated by the
+instructions.}
+\label{fig:example}
+\end{figure}
+
+\section*{An unnumbered section.}
+Typically used for acknowledgments and the like.
+
+\appendix
+\section{Example}
+If you were wondering how this was written, wonder no more. The
+complete source is in Listing~\ref{lst:example}.
+\lstinputlisting[language={[LaTeX]TeX},float=*,caption=The complete
+source for this example file.,label=lst:example,
+basicstyle=\footnotesize]{\jobname}
+\end{document}
